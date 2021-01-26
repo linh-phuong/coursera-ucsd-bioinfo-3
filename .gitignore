@@ -1,0 +1,7 @@
+htmlcov
+.vscode
+__pycache__
+.coverage
+Untitled.ipynb
+.ipynb_checkpoints
+main.py
