@@ -1,12 +1,9 @@
 from week1.common_element import (
     convert_to_backtrack,
     find_highest_score_track,
-    find_longest_common,
     find_longest_route_value_MT,
     find_longest_route_value_MTD,
     find_min_elements,
-    max_with_start_end,
-    max_with_tie,
     min_nb_elements,
     construct_route,
     select_route_with_startend,
@@ -20,13 +17,6 @@ import sys
 import re
 
 sys.setrecursionlimit(1500)
-
-
-def test_find_longest_common():
-    assert find_longest_common("ACTGCA", "CATCGT") == "ACT"
-    assert find_longest_common("ACTGCA", "CATCGC") == "ACGC"
-    assert find_longest_common("AACTG", "CAAG") == "AAG"
-    assert find_longest_common("ATGTTATA", "ATCGTCC") == "ATGT"
 
 
 def test_min_nb_elements():
@@ -275,10 +265,6 @@ def test_backtrack(inp):
     assert track == track_exp
 
 
-def test_max_with_tie():
-    assert max_with_tie(((1, 3), (2, 3)), 1) == [(1, 3), (2, 3)]
-
-
 def _parse_longest_route_DAG_large(file):
     with open(file) as fd:
         fd.readline()
@@ -331,14 +317,3 @@ def test_parse_longest_route_large(tmp_path):
     assert sc == 10
     assert path == [0, 1, 2]
 
-
-def test_select_route_with_se():
-    route = {0: (3, [0, 1, 2]), 1: (4, [1, 5])}
-    assert select_route_with_startend(route, 0, 2) == (3, [0, 1, 2])
-    assert select_route_with_startend(route, 1, 5) == (4, [1, 5])
-
-
-def test_max_with_start_end():
-    ls = [(0, 3), (1, 4), (2, 6)]
-    assert max_with_start_end(ls, 0, 5) == [(0, 3)]
-    assert max_with_start_end(ls, 1, 10) == [(1, 4)]

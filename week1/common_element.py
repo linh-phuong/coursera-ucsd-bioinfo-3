@@ -2,35 +2,6 @@ import numpy as np
 from collections import defaultdict
 
 
-def find_longest_common(a, b):  # This function is not in the excercise
-    """find the longest common string between a and b (duplicates and position included)
-
-    Args:
-        a (str): string a
-        b (str): string b
-
-    Returns:
-        str: common string between a and b
-    """
-    c = ""
-    i = 0
-    for e in a:
-        new_b = b[i:]
-        j = 0
-        if not new_b:
-            break
-        for f in new_b:
-            i += 1
-            if e == f:
-                c += e
-                break
-            else:
-                j += 1
-            if i == len(b):
-                i = i - j
-    return c
-
-
 def nonnegative_min(a_list):
     """find min non negative value of a list
 
@@ -204,36 +175,6 @@ def find_highest_score_track(graph, start, end):
     if end not in routes_dict:
         raise Exception("The end node is not connected to the start node")
     return routes_dict[end]
-
-
-def max_with_tie(ls, id):
-    m_score = 0
-    item = []
-    for it in ls:
-        if it[id] > m_score:
-            item = [it]
-            m_score = it[id]
-        elif it[id] == m_score:
-            item.append(it)
-    return item
-
-
-def max_with_start_end(ls, start, end):
-    m_score = 0
-    item = []
-    ls = sorted(ls)
-    critical_node = False
-    for it in ls:
-        if it[0] == start or it[0] == end:
-            item = [it]
-            critical_node = True
-        if not critical_node:
-            if it[1] > m_score:
-                item = [it]
-                m_score = it[1]
-            elif it[1] == m_score:
-                item.append(it)
-    return item
 
 
 def convert_to_backtrack(graph):
