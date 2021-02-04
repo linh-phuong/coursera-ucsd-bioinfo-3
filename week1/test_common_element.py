@@ -6,7 +6,6 @@ from week1.common_element import (
     find_min_elements,
     min_nb_elements,
     construct_route,
-    select_route_with_startend,
     track_longest_route,
 )
 import numpy as np

@@ -66,6 +66,17 @@ def find_min_elements(S, elements):
 
 
 def find_longest_route_value_MT(c, r, D, R):
+    """find the score of the longest route in a Manhattan graph (a rectangle graph in which each edge is a route)
+
+    Args:
+        c (int): number of vertical edges
+        r (int): number of horizontal edges 
+        D (np.array): scores of vertical routes 
+        R (np.array): scores of horizontal routes
+
+    Returns:
+        int: score of the longest route from point (0, 0) to point (n, m) of the rectangle graph
+    """
     n = c + 1
     m = r + 1
     route_score = np.zeros((n, m))
@@ -82,6 +93,18 @@ def find_longest_route_value_MT(c, r, D, R):
 
 
 def find_longest_route_value_MTD(c, r, D, R, DG):
+    """find the score of the longest route in a Manhattan graph with diagonal route
+
+    Args:
+        c (int): number of vertical edges
+        r (int): number of horizontal edges
+        D (np.array): scores of vertical routes 
+        R (np.array): scores of horizontal routes
+        DG (np.array): scores of diagonal routes
+
+    Returns:
+        int: score of the longest route from point (0, 0) to point (n, m) of the rectangle graph
+    """
     n = c + 1
     m = r + 1
     route_score = np.zeros((n, m))
@@ -102,6 +125,18 @@ def find_longest_route_value_MTD(c, r, D, R, DG):
 
 
 def construct_route(v, w):
+    """build directions to walk the longest route of a rectangle graph
+    each column of the graph corresponds to each element of the string w
+    each row of the graph corresponds to each element of the string v
+
+    Args:
+        v (str): a sequence of aa, or dna, etc
+        w (str): a sequence of aa, or dna, etc
+
+    Returns:
+        list: directions from one node to the next node in the rectangle graph 
+        "s":stop, "d": go down, "r": go right, "dg": go diagonal
+    """
     scan_v = len(v) + 1
     scan_w = len(w) + 1
     align = np.zeros((scan_v, scan_w))
@@ -122,6 +157,17 @@ def construct_route(v, w):
 
 
 def _track_longest_route(tracks, v, i, j):
+    """find the longest route in a rectangle graph given the tracking information
+
+    Args:
+        tracks (list): directions from one node to the next node in the rectangle graph 
+        "s":stop, "d": go down, "r": go right, "dg": go diagonal
+        v (int): number of vertical edges
+        i, j (int, int): position (i, j) in the graph
+
+    Returns:
+        str: direction to the longest route from (0, 0) to (i, j)
+    """
     if i == 0 or j == 0:
         return ""
     if tracks[i][j] == "d":
@@ -133,24 +179,35 @@ def _track_longest_route(tracks, v, i, j):
 
 
 def track_longest_route(v, w):
+    """find the longest common string between v and w
+
+    Args:
+        v, w (str, str): a sequence of aa, dna, etc
+        
+    Returns:
+        str: longest common string
+    """
     tracks = construct_route(v, w)
     i = len(v)
     j = len(w)
     return _track_longest_route(tracks, v, i, j)
 
 
-def select_route_with_startend(routes_dict, start, end):
-    bestscore = 0
-    bestroute = ()
-    for s, p in routes_dict.values():
-        if p[0] == start and p[-1] == end and s > bestscore:
-            bestscore = s
-            bestroute = p
-    return bestscore, bestroute
-
-
 # graph: { 0: [(1, 3)] } => arc from 0 to 1 has weight 3
 def find_highest_score_track(graph, start, end):
+    """find the track from a start node to an end node with the highest score given a graph showing the weight when going from one node to another
+
+    Args:
+        graph (dict): showing edges from one node to other nodes with weight
+        start (str or int): start node 
+        end (str or int): end node
+
+    Raises:
+        Exception: when the end node is not connected to the start node
+
+    Returns:
+        list: the path with the highest score
+    """
 
     # backtrack: { 1: [(0, 3)] } => arc from 0 to 1 has weight 3
     backtrack = convert_to_backtrack(graph)
@@ -178,8 +235,18 @@ def find_highest_score_track(graph, start, end):
 
 
 def convert_to_backtrack(graph):
+    """convert a graph in the list form, and each element is a list showing [from node, to node, weight] into
+     a graph in the dictionary form where key = to node, value = from node and weight
+
+    Args:
+        graph (list): each element is a list [from node, to node, weight]
+
+    Returns:
+        defaultdict: key: to node, value = (weight, from node), defaut value is an empty list
+    """
     backtrack = defaultdict(lambda: [])
     for items in graph:
-        backtrack[items[1]].append((items[0], items[2]))
+        fr, to, weight = items
+        backtrack[to].append((fr, weight))
     return backtrack
 
