@@ -3,7 +3,7 @@
 To run all the tests
 
 ```
-pytest
+pytest --cov=. --cov-report=html --cov-report=term-missing
 ```
 In this course, we learn algorithm to align different sequences
 

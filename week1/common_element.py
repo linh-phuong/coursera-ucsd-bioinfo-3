@@ -70,8 +70,8 @@ def find_longest_route_value_MT(c, r, D, R):
 
     Args:
         c (int): number of vertical edges
-        r (int): number of horizontal edges 
-        D (np.array): scores of vertical routes 
+        r (int): number of horizontal edges
+        D (np.array): scores of vertical routes
         R (np.array): scores of horizontal routes
 
     Returns:
@@ -98,7 +98,7 @@ def find_longest_route_value_MTD(c, r, D, R, DG):
     Args:
         c (int): number of vertical edges
         r (int): number of horizontal edges
-        D (np.array): scores of vertical routes 
+        D (np.array): scores of vertical routes
         R (np.array): scores of horizontal routes
         DG (np.array): scores of diagonal routes
 
@@ -134,7 +134,7 @@ def construct_route(v, w):
         w (str): a sequence of aa, or dna, etc
 
     Returns:
-        list: directions from one node to the next node in the rectangle graph 
+        list: directions from one node to the next node in the rectangle graph
         "s":stop, "d": go down, "r": go right, "dg": go diagonal
     """
     scan_v = len(v) + 1
@@ -160,7 +160,7 @@ def _track_longest_route(tracks, v, i, j):
     """find the longest route in a rectangle graph given the tracking information
 
     Args:
-        tracks (list): directions from one node to the next node in the rectangle graph 
+        tracks (list): directions from one node to the next node in the rectangle graph
         "s":stop, "d": go down, "r": go right, "dg": go diagonal
         v (int): number of vertical edges
         i, j (int, int): position (i, j) in the graph
@@ -183,7 +183,7 @@ def track_longest_route(v, w):
 
     Args:
         v, w (str, str): a sequence of aa, dna, etc
-        
+
     Returns:
         str: longest common string
     """
@@ -199,7 +199,7 @@ def find_highest_score_track(graph, start, end):
 
     Args:
         graph (dict): showing edges from one node to other nodes with weight
-        start (str or int): start node 
+        start (str or int): start node
         end (str or int): end node
 
     Raises:
@@ -249,4 +249,3 @@ def convert_to_backtrack(graph):
         fr, to, weight = items
         backtrack[to].append((fr, weight))
     return backtrack
-
