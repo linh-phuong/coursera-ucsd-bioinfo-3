@@ -94,6 +94,19 @@ def build_route_replace_matrix(v, w, rpl):
 
 
 def match_strings(v, w, i, j, backtrack):
+    """Globally align two strings given a backtrack matrix
+    and position [i, j] in the matrix
+
+    Args:
+        v (str): the first string
+        w (str): the second string
+        i (int): position on w
+        j (int): position on v
+        backtrack (list): backtrack matrix
+
+    Returns:
+        list: len = 2, global alignment of two strings
+    """
     if i == 0 and j == 0:
         return ["", ""]
     elif i == 0 and j > 0:
@@ -114,12 +127,34 @@ def match_strings(v, w, i, j, backtrack):
 
 
 def global_aligment(v, w, penalties):
+    """Create global alignment given
+    score for match and penalties for mismatch and insert/deletion
+
+    Args:
+        v (str): the first string
+        w (str): the second string
+        penalties (list): match, mismatch, insert/deletion
+
+    Returns:
+        tuple: matched score, alignments
+    """
     backtrack, score = build_route_with_pen(v, w, penalties)
     lv, lw = len(v), len(w)
     return score, match_strings(v, w, lw, lv, backtrack)
 
 
-def global_alignment_repmat(v, w, replacement_matrix):
-    backtrack, score = build_route_replace_matrix(v, w, replacement_matrix)
+def global_alignment_repmat(v, w, replacement_score):
+    """Create global alignment given
+    score for match and penalties for mismatch and insert/deletion
+
+    Args:
+        v (str): the first string
+        w (str): the second string
+        replacement_score (dict): score for match, punishment for mismatch and insert/deletion
+
+    Returns:
+        tuple: matched score, alignments
+    """
+    backtrack, score = build_route_replace_matrix(v, w, replacement_score)
     lv, lw = len(v), len(w)
     return score, match_strings(v, w, lw, lv, backtrack)
