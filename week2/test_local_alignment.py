@@ -14,10 +14,10 @@ def build_score_dict(match, mismatch, indel):
 REPL_MAT = build_score_dict(1, -1, -2)
 
 BT = [
-    ["d", "d", "d", "d", "d"],
-    ["r", "dg", "nc", "dg", "nc"],
-    ["r", "nc", "dg", "r", "dg"],
-    ["r", "nc", "d", "dg", "d"],
+    ["fr", "fr", "fr", "fr", "fr"],
+    ["fr", "dg", "fr", "dg", "fr"],
+    ["fr", "fr", "dg", "r", "dg"],
+    ["fr", "fr", "d", "dg", "d"],
 ]
 
 
@@ -43,17 +43,19 @@ REPL_MAT1 = build_score_dict(3, -3, -1)
 REPL_MAT2 = build_score_dict(1, -1, -1)
 REPL_MAT3 = build_score_dict(3, -2, -1)
 REPL_MAT4 = build_score_dict(2, -3, -1)
+REPL_MAT5 = build_score_dict(0, -1, -1)
 
 
 @pytest.mark.parametrize(
     "v, w, rep_score, maxscore, align",
     [
-        ("GAGA", "GAT", REPL_MAT, 2, ["GA", "GA"]),
-        ("AGC", "ATC", REPL_MAT1, 4, ["AG-C", "A-TC"]),
-        ("AT", "AG", REPL_MAT2, 1, ["A", "A"]),
-        ("TAACG", "ACGTG", REPL_MAT2, 3, ["ACG", "ACG"]),
-        ("CAGAGATGGCCG", "ACG", REPL_MAT3, 6, ["CG", "CG"]),
-        ("CTT", "AGCATAAAGCATT", REPL_MAT4, 5, ["C-TT", "CATT"]),
+        ("GAGA", "GAT", REPL_MAT, 2, ("GA", "GA")),
+        ("AGC", "ATC", REPL_MAT1, 4, ("AG-C", "A-TC")),
+        ("AT", "AG", REPL_MAT2, 1, ("A", "A")),
+        ("TAACG", "ACGTG", REPL_MAT2, 3, ("ACG", "ACG")),
+        ("CAGAGATGGCCG", "ACG", REPL_MAT3, 6, ("CG", "CG")),
+        ("CTT", "AGCATAAAGCATT", REPL_MAT4, 5, ("C-TT", "CATT")),
+        ("CGTAGGCTTAAGGTTA", "ATAGATA", REPL_MAT5, 1, ()),
     ],
 )
 def test_local_alignment(v, w, rep_score, maxscore, align):
@@ -62,9 +64,9 @@ def test_local_alignment(v, w, rep_score, maxscore, align):
     assert alm == align
 
 
-def _parse_pam250():
+def _parse_pam250(indel_punish):
     # default value when there is deletion
-    pam250 = defaultdict(lambda: -5)
+    pam250 = defaultdict(lambda: -indel_punish)
     with open("week2/data/PAM250.txt") as fd:
         lines = fd.readlines()
     w = lines[0].strip().split()
@@ -87,7 +89,7 @@ def _parse_local_align_large():
 
 
 def test_local_alignment_large():
-    pam250 = _parse_pam250()
+    pam250 = _parse_pam250(5)
     v, w, score, _ = _parse_local_align_large()
     myscore, myalign = local_alignment(v, w, pam250)
     assert score == myscore
