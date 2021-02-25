@@ -32,6 +32,19 @@ def test_freeride_route(v, w, matrix, backtrack, maxscore, maxpos):
 
 
 def build_score_dict(match, mismatch, indel):
+    """Build a score dictionary for the four nucleotide ACGT
+
+    Args:
+        match (int): score if match
+        mismatch (int): score if mismatch
+        indel (int): score if there is deletion/insertion
+
+    Returns:
+        defauldict: score dictionary
+    """
+    assert match >= 0, "match cannot be negative"
+    assert mismatch < 0, "we use negative value for mismatch punishment"
+    assert indel < 0, "we use negative value for insert/deletion punishment"
     score_dict = defaultdict(lambda: indel)
     for i in "ACGT":
         for j in "ACGT":
@@ -55,7 +68,6 @@ REPL_MAT5 = build_score_dict(0, -1, -1)
         ("TAACG", "ACGTG", REPL_MAT2, 3, ("ACG", "ACG")),
         ("CAGAGATGGCCG", "ACG", REPL_MAT3, 6, ("CG", "CG")),
         ("CTT", "AGCATAAAGCATT", REPL_MAT4, 5, ("C-TT", "CATT")),
-        ("CGTAGGCTTAAGGTTA", "ATAGATA", REPL_MAT5, 1, ()),
     ],
 )
 def test_local_alignment(v, w, rep_score, maxscore, align):

@@ -65,12 +65,28 @@ def build_route_with_freeride(v, w, weight):
                 backtrack[i][j] = DIAGONAL
             else:
                 backtrack[i][j] = FREERIDE
-    return backtrack, maxscore, max_position, align
+    return backtrack, maxscore, max_position
 
 
 def match_local(v, w, i, j, backtrack):
+    """Align two strings locally given a starting position (i, j)
+    and a backtrack matrix
+
+    Args:
+        v (str): the first string
+        w (str): the second string
+        i (int): row position in the backtrack matrix
+        j (int): collum position in the backtrack matrix
+        backtrack (list): give direction from [i, j] to a freeride point from the source [0, 0]
+
+    Raises:
+        Exception: when [i, j] does not connect to any position
+
+    Returns:
+        tuple: aligned substrings of v and w
+    """
     v_align, w_align = "", ""
-    if backtrack[i][j] == None:
+    if backtrack[i][j] is None:
         if i == 0 and j == 0:
             return None
         else:

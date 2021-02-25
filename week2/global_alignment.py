@@ -140,7 +140,7 @@ def match_strings(v, w, backtrack):
     i = len(w)
     j = len(v)
     v_align, w_align = "", ""
-    if backtrack[i][j] == None:
+    if backtrack[i][j] is None:
         if i == 0 and j == 0:
             return None
         else:

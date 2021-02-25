@@ -14,3 +14,9 @@ The alignment problem is transformed into the Manhattan Tourist problem, that is
 ## Week2
 
 Apply the Manhattan Tourist problem to align two strings. Include different score for match, mismatch and insert/delete punishment.
+
+This week there are different problems:
+1. global alignment: find an alignment with highest alignment score between two strings along the whole string
+2. local alignment: find aligned substring of two strings that have the highest alignment score
+3. fitting alignment: find the alignment of a string that fits to another string with the highest alignment score
+4. overlap alignment: find the alignment between the suffix of a string and the prefix of another string with the highest alignment score
