@@ -20,3 +20,9 @@ This week there are different problems:
 2. local alignment: find aligned substring of two strings that have the highest alignment score
 3. fitting alignment: find the alignment of a string that fits to another string with the highest alignment score
 4. overlap alignment: find the alignment between the suffix of a string and the prefix of another string with the highest alignment score
+
+## Week3
+
+Different problems in this week
+
+1. Instead of punishment for insertion an deletion for a single nucleotide or amino acid, we do punishment for blocks of nucleotides and amino acids (this is more realistic in biology).
